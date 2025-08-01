@@ -3,7 +3,6 @@ package com.next.app.api.user.service;
 
 import com.next.app.api.user.entity.Product;
 import com.next.app.api.user.repository.ProductRepository;
-import com.next.app.api.user.repository.UserRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
