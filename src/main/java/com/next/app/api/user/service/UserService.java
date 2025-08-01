@@ -2,11 +2,13 @@ package com.next.app.api.user.service;
 
 import com.next.app.api.user.entity.User;
 import com.next.app.api.user.repository.UserRepository;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
+@Slf4j
 
 @Service
 public class UserService {
@@ -30,6 +32,8 @@ public class UserService {
         if (userRepository.existsByEmail(user.getEmail())) {
             throw new RuntimeException("이미 존재하는 이메일입니다: " + user.getEmail());
         }
+
+        log.info("Creating user: " + user.getEmail());
         return userRepository.save(user);
     }
     
