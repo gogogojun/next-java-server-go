@@ -21,7 +21,7 @@ public class AwsSnsTester {
                 "}";
 
         // 엔드포인트 또는 토픽 ARN
-        String endpointArn = "arn:aws:sns:ap-northeast-2:077672914621:go-topic:b2b01d05-564e-47c6-9f0d-909d85272e84";
+        String endpointArn = "arn:aws:sns:ap-northeast-2:077672914621:go-topic";
 
         // Publish 요청
         PublishRequest request = PublishRequest.builder()
