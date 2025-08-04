@@ -1,16 +1,14 @@
-# Use an official OpenJDK runtime as a parent image
+# 빌드 스테이지
+FROM gradle:7.6-jdk17 AS build
+WORKDIR /home/app
+COPY . .
+RUN gradle build --no-daemon
+
+# 런타임 스테이지
 FROM openjdk:17-jdk-slim
-
-# Set the working directory inside the container
 WORKDIR /app
+COPY --from=build /home/app/build/libs/*.jar app.jar
 
-# Copy the Gradle build output (JAR file) into the container
-COPY build/libs/*.jar app.jar
-
-# Expose the port your application runs on
 EXPOSE 8080
 
-# Run the application
 ENTRYPOINT ["java", "-jar", "app.jar", "--spring.datasource.url=jdbc:mysql://next-db.c74828wmikhx.ap-northeast-2.rds.amazonaws.com:3306/next?useSSL=false&serverTimezone=UTC&characterEncoding=UTF-8", "--spring.datasource.username=admin", "--spring.datasource.password=17Rwi[Cu*G[9*lGuXoWP)MFdyyVA"]
-
-
