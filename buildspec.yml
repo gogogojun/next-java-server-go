@@ -2,30 +2,32 @@ version: 0.2
 
 env:
   variables:
-      REPOSITORY_URI: 077672914621.dkr.ecr.ap-northeast-2.amazonaws.com
-      IMAGE_NAME: go
-      IMAGE_TAG: latest
-      IMAGE_URI: 077672914621.dkr.ecr.ap-northeast-2.amazonaws.com/go:latest
+    REPOSITORY_URI: 077672914621.dkr.ecr.ap-northeast-2.amazonaws.com
+    IMAGE_NAME: go
+    IMAGE_TAG: latest
+    IMAGE_URI: 077672914621.dkr.ecr.ap-northeast-2.amazonaws.com/go:latest
 
 phases:
   pre_build:
     commands:
+      - echo "Gradle 실행 권한 부여"
+      - chmod +x ./gradlew
       - echo "Gradle build 시작"
       - ./gradlew clean build
       - ls build/libs
       - echo "ECR 로그인 중..."
-      - aws ecr get-login-password --region ap-northeast-2 | docker login --username AWS --password-stdin $REPOSITORY_URI
+      - aws ecr get-login-password --region ap-northeast-2 | docker login --username AWS --password-stdin ${REPOSITORY_URI}
 
   build:
     commands:
       - echo "Docker 이미지 빌드"
-      - docker build -t $IMAGE_NAME .
-
+      - docker build -t ${IMAGE_NAME} .
+      - docker tag ${IMAGE_NAME}:latest ${IMAGE_URI}
 
   post_build:
     commands:
       - echo "Docker 이미지 푸시"
-      - docker push $IMAGE_URI
+      - docker push ${IMAGE_URI}
       - echo "imagedefinitions.json 생성"
       - printf '[{"name":"go-service","imageUri":"%s"}]' $IMAGE_URI > imagedefinitions.json
 
