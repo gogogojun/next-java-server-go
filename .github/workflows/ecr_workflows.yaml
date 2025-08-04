@@ -30,6 +30,19 @@ jobs:
           aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws-region: ${{ env.AWS_REGION }}
+      - name: Setup JDK 17
+        uses: actions/setup-java@v3
+        with:
+          java-version: '17'
+          distribution: 'temurin'
+
+            # gradlew 파일에 실행 권한을 부여합니다.
+      - name: Grant execute permission for gradlew
+        run: chmod +x gradlew
+
+            # Gradle을 사용하여 애플리케이션을 빌드합니다.
+      - name: Build with Gradle
+        run: ./gradlew clean build -x test
 
       - name: Login to Amazon ECR
         id: login-ecr
