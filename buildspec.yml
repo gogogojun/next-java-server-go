@@ -8,6 +8,10 @@ env:
     IMAGE_URI: 077672914621.dkr.ecr.ap-northeast-2.amazonaws.com/go:latest
 
 phases:
+  install:
+    runtime-versions:
+      java: corretto17
+
   pre_build:
     commands:
       - echo "Gradle 실행 권한 부여"
