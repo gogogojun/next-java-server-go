@@ -175,3 +175,5 @@ application-prod.yml
 .Trashes
 ehthumbs.db
 Thumbs.db
+
+Terraform/
